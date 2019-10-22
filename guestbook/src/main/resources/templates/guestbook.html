@@ -29,15 +29,22 @@
 			<div th:each="entry, it : ${entries}" th:with="index = ${it.count}">
 				<div class="card" th:fragment="entry" th:id="entry+${entry.id}">
 					<div class="card-header">
-						<form sec:authorize="hasRole('ADMIN')" th:method="delete" th:action="@{/guestbook/{id}(id=${entry.id})}" th:attr="data-entry-id=${entry.id}">
-							<button th:title="#{guestbook.form.delete}" class="btn btn-sm float-right">
-								<span class="fas fa-times"></span>
-							</button>
-						</form>
-						<h4 th:text="${index} + '. ' + ${entry.name}" class="card-title">1. Posting</h4>
+						<table style="width:100%"><tr>
+							<td th:text="${index} + '. ' + ${entry.name}" class="card-title">1. Posting</td>
+							<form sec:authorize="hasRole('ADMIN')" th:method="delete" th:action="@{/guestbook/{id}(id=${entry.id})}" th:attr="data-entry-id=${entry.id}">
+								<td horizontal-align="middle" display="block" margin="auto"><button th:title="#{guestbook.form.delete}" class="btn btn-sm float-right">
+									<span class="fas fa-times"></span></td>
+								</button>
+							</form>
+							<form sec:authorize="hasRole('ADMIN')">
+								<td horizontal-align="middle" display="block" margin="auto"><button onclick="myFunction()" th:title="#{guestbook.form.edit}" class="btn btn-sm float-right">
+										<span class="fas fa-pen"></span></td>
+								</button>
+							</form>
+						</tr></table>
 					</div>
 					<div class="card-body">
-						<blockquote class="entrytext" th:text="${entry.text}"></blockquote>
+						<blockquote id="the_text" class="entrytext" th:text="${entry.text}"></blockquote>
 					</div>
 					<div class="card-footer">
 						<footer class="email" th:text="${entry.email}">Email</footer>
@@ -66,6 +73,17 @@
 			</div>
 			<input type="submit" class="btn btn-secondary" th:value="#{guestbook.form.submit}" value="Senden" />
 		</form>
+
+	<script>
+		function myFunction() {
+			var x = document.getElementById("the_text");
+			if (x.isContentEditable === "false") {
+			x.contentEditable = "true";
+			} else {
+			x.contentEditable = "false";
+		}
+	</script>
+
 
 	</body>
 </html>

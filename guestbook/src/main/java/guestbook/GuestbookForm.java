@@ -47,7 +47,7 @@ class GuestbookForm {
 
 		this.name = name;
 		this.text = text;
-		this.email = text;
+		this.email = email;
 	}
 
 	/**
