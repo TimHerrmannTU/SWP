@@ -1,0 +1,45 @@
+= Cross-Testing Feedback
+
+__Durchführende Gruppe:__
+32
+__Anwendung von Gruppe:__
+31
+
+== Getestetes System
+Das Programm für die Moebel-Hunger-Kette soll dem Nutzer das Unternehmen ansprechend präsentieren. Es wird sowohl die Warenbestellung, als auch Warenzwischenlagerung und -auslieferung organisiert. Der Admin verfügt über eine extra Ansicht, in der er den Katalog verwalten kann, Attribute der Großlieferanten ändern kann und auch Bestellungen bearbeiten kann.
+
+== Fehler-Report
+// See http://asciidoctor.org/docs/user-manual/#tables
+[options="header"]
+|===
+|Pfad |Parameter |Beschreibung |Rückgabe
+| Admin: Fuhrpark | ID: lkw, Last: Zahl mit mehr als 11 Stellen, Liefergebühr: 1 | Überprüfen nach Eingabeobergrenze |"Es ist ein Error aufgetreten" 
+| Admin: Fuhrpark | ID: lkw, Last: 1, Liefergebühr: Zahl mit mehr als 11 Stellen| Überprüfen nach Eingabeobergrenze |"Es ist ein Error aufgetreten" 
+| Admin: Fuhrpark | ID: Zeichenkette mit Länge>255, Last: 1, Liefergebühr: 1 | Überprüfen nach Eingabeobergrenze |"Es ist ein Error aufgetreten" 
+| Admin: Fuhrpark |Kopieren der Werte von "Mercedes"| Überprüfen, ob Dopplungen Möglich sind | "Mercedes" existiert nun zweimal
+| Kunde: catalog->detail->warenkorb |Bestellung eines braunen Sessels und eines gelben| Überprüfen, der Farbanzeigen im Warenkorb | Nur der erste Farbwert wird angezeigt, aber der Zähler wird inkrementiert 
+| Kunde: catalog -> detail -> warenkorb -> Bestellung abschließen|[Vorname: q, Nachname: q, Adresse:q, Email: q@q.com, Telefon:1111111111]|man kann eine leere Bestellung erstellen|Bestellung(Status:offen, ID:**)
+| Kunde: Bestellung-> Bestellung:ID=**|[Sessel,1Stck.,56€,offen,Heimlieferung]|Wenn man auf "Alles Bezahlt" drückt ist die Bestellung automatisch ausgeliefert|Bestellung (Status: abgeschlossen, ID: **)
+|Kunde: catalog -> detail -> warenkorb ->hinzufügen | Bestellung eines braunen Sessels, und hinzufügen zu einer Bestellung mit braunen Sessel |Überprüfen ob die beiden Sessel zusammengenommen werden |Die beiden Sessel werden trotz gleicher Farbe einzeln angezeigt
+|===
+
+
+== Sonstiges
+* Bei der Dateneingabe bei Abschluss einer Bestellung wird keine Fehlermeldung angezeigt, wenn die E-Mail falsch eingegeben wurde. Dadurch ist nicht sofort ersichtlich wo der Fehler liegt.  
+* Der Hintergrund der Website "überschreibt" unseren eigenen.
+* Es gibt keine Möbelsets.
+* Der Admin kann keine Möbelstücke dem Inventar hinzufügen bzw. ein- oder ausblenden.
+* Der Buchführungslink lädt einfach die Seite neu.
+* In der Adminansicht des LKW-Verleihs ist die Anzeige für den Status von "belegt" und "wird geliefert" dieselbe.
+* Bei der Bestellung gibt es beim abschließen keinen Hinweis über eine unzulässige E-Mail-Adresse
+* Farbauswahl sieht gehardcoded aus
+* nach Abschließung einer Bestellung als Kunde wird in der Adminansicht keine neue Bestellung angezeigt
+* Woher kennt der Kunde seine ID?
+* "Menge ändern" besitzt keinen Button, um es zu triggern
+* Keine Einsicht auf die Farbauswahl, in Order
+
+== Verbesserungsvorschläge
+* Es wäre hilfreich, wenn die Erklärungen für das Mieten eines LKW verständlicher wäre.
+* Nach Buttonklick 'Bestellung aufgeben' auf Startseite oder Katalog verlinken
+* LogIn und LogOut passen optisch nicht zum restlichen Design
+
